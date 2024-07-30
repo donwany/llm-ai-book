@@ -1,5 +1,7 @@
 🚀 Just Launched! 🚀
-### Title: 📚 Demystifying the Power of Large Language Models: A Deep Dive into Large Language Models 🤖💡
+### Title: 📚 [Demystifying the Power of Large Language Models](https://www.amazon.com/Demystifying-Power-Large-Language-Models/dp/B0D6443WY8): A Deep Dive into Large Language Models 🤖💡
+
+[![](img/book_cover.jpg)](https://www.amazon.com/Demystifying-Power-Large-Language-Models/dp/B0D6443WY8/)
 
 Dive into the cutting-edge world of LLMs with our comprehensive guide! 🌍📘 Here’s what you’ll discover:
 ### Chapters
