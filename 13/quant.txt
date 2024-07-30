@@ -1,0 +1,7 @@
+https://github.com/casper-hansen/AutoAWQ/blob/main/examples/eval.py
+https://github.com/casper-hansen/AutoAWQ/blob/main/examples/benchmark.py
+https://github.com/AutoGPTQ/AutoGPTQ/blob/main/examples/quantization/basic_usage.py
+https://github.com/AutoGPTQ/AutoGPTQ/blob/main/examples/benchmark/perplexity.py
+
+https://casper-hansen.github.io/AutoAWQ/examples/
+https://github.com/AutoGPTQ/AutoGPTQ.git
