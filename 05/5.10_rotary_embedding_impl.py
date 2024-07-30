@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 
+
 class RotaryPositionalEmbedding(nn.Module):
     def __init__(self, d_model, max_seq_len):
         super(RotaryPositionalEmbedding, self).__init__()

@@ -4,8 +4,10 @@ import math
 from torch import nn
 import torch.nn.functional as F
 
+
 def get_device():
     return torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
 
 def scaled_dot_product(q, k, v, mask=None):
     d_k = q.size()[-1]
@@ -17,6 +19,7 @@ def scaled_dot_product(q, k, v, mask=None):
     values = torch.matmul(attention, v)
     return values, attention
 
+
 class PositionalEncoding(nn.Module):
     def __init__(self, d_model, max_sequence_length):
         super().__init__()
@@ -25,17 +28,19 @@ class PositionalEncoding(nn.Module):
 
     def forward(self):
         even_i = torch.arange(0, self.d_model, 2).float()
-        denominator = torch.pow(10000, even_i/self.d_model)
+        denominator = torch.pow(10000, even_i / self.d_model)
         position = (torch.arange(self.max_sequence_length)
-                          .reshape(self.max_sequence_length, 1))
+                    .reshape(self.max_sequence_length, 1))
         even_PE = torch.sin(position / denominator)
         odd_PE = torch.cos(position / denominator)
         stacked = torch.stack([even_PE, odd_PE], dim=2)
         PE = torch.flatten(stacked, start_dim=1, end_dim=2)
         return PE
 
+
 class SentenceEmbedding(nn.Module):
     "For a given sentence, create an embedding"
+
     def __init__(self, max_sequence_length, d_model, language_to_index, START_TOKEN, END_TOKEN, PADDING_TOKEN):
         super().__init__()
         self.vocab_size = len(language_to_index)
@@ -47,7 +52,7 @@ class SentenceEmbedding(nn.Module):
         self.START_TOKEN = START_TOKEN
         self.END_TOKEN = END_TOKEN
         self.PADDING_TOKEN = PADDING_TOKEN
-    
+
     def batch_tokenize(self, batch, start_token, end_token):
 
         def tokenize(sentence, start_token, end_token):
@@ -62,11 +67,11 @@ class SentenceEmbedding(nn.Module):
 
         tokenized = []
         for sentence_num in range(len(batch)):
-           tokenized.append( tokenize(batch[sentence_num], start_token, end_token) )
+            tokenized.append(tokenize(batch[sentence_num], start_token, end_token))
         tokenized = torch.stack(tokenized)
         return tokenized.to(get_device())
-    
-    def forward(self, x, start_token, end_token): # sentence
+
+    def forward(self, x, start_token, end_token):  # sentence
         x = self.batch_tokenize(x, start_token, end_token)
         x = self.embedding(x)
         pos = self.position_encoder().to(get_device())
@@ -80,9 +85,9 @@ class MultiHeadAttention(nn.Module):
         self.d_model = d_model
         self.num_heads = num_heads
         self.head_dim = d_model // num_heads
-        self.qkv_layer = nn.Linear(d_model , 3 * d_model)
+        self.qkv_layer = nn.Linear(d_model, 3 * d_model)
         self.linear_layer = nn.Linear(d_model, d_model)
-    
+
     def forward(self, x, mask):
         batch_size, sequence_length, d_model = x.size()
         qkv = self.qkv_layer(x)
@@ -98,10 +103,10 @@ class MultiHeadAttention(nn.Module):
 class LayerNormalization(nn.Module):
     def __init__(self, parameters_shape, eps=1e-5):
         super().__init__()
-        self.parameters_shape=parameters_shape
-        self.eps=eps
+        self.parameters_shape = parameters_shape
+        self.eps = eps
         self.gamma = nn.Parameter(torch.ones(parameters_shape))
-        self.beta =  nn.Parameter(torch.zeros(parameters_shape))
+        self.beta = nn.Parameter(torch.zeros(parameters_shape))
 
     def forward(self, inputs):
         dims = [-(i + 1) for i in range(len(self.parameters_shape))]
@@ -112,7 +117,7 @@ class LayerNormalization(nn.Module):
         out = self.gamma * y + self.beta
         return out
 
-  
+
 class PositionwiseFeedForward(nn.Module):
     def __init__(self, d_model, hidden, drop_prob=0.1):
         super(PositionwiseFeedForward, self).__init__()
@@ -149,30 +154,33 @@ class EncoderLayer(nn.Module):
         x = self.dropout2(x)
         x = self.norm2(x + residual_x)
         return x
-    
+
+
 class SequentialEncoder(nn.Sequential):
     def forward(self, *inputs):
-        x, self_attention_mask  = inputs
+        x, self_attention_mask = inputs
         for module in self._modules.values():
             x = module(x, self_attention_mask)
         return x
 
+
 class Encoder(nn.Module):
-    def __init__(self, 
-                 d_model, 
-                 ffn_hidden, 
-                 num_heads, 
-                 drop_prob, 
+    def __init__(self,
+                 d_model,
+                 ffn_hidden,
+                 num_heads,
+                 drop_prob,
                  num_layers,
                  max_sequence_length,
                  language_to_index,
                  START_TOKEN,
-                 END_TOKEN, 
+                 END_TOKEN,
                  PADDING_TOKEN):
         super().__init__()
-        self.sentence_embedding = SentenceEmbedding(max_sequence_length, d_model, language_to_index, START_TOKEN, END_TOKEN, PADDING_TOKEN)
+        self.sentence_embedding = SentenceEmbedding(max_sequence_length, d_model, language_to_index, START_TOKEN,
+                                                    END_TOKEN, PADDING_TOKEN)
         self.layers = SequentialEncoder(*[EncoderLayer(d_model, ffn_hidden, num_heads, drop_prob)
-                                      for _ in range(num_layers)])
+                                          for _ in range(num_layers)])
 
     def forward(self, x, self_attention_mask, start_token, end_token):
         x = self.sentence_embedding(x, start_token, end_token)
@@ -186,12 +194,12 @@ class MultiHeadCrossAttention(nn.Module):
         self.d_model = d_model
         self.num_heads = num_heads
         self.head_dim = d_model // num_heads
-        self.kv_layer = nn.Linear(d_model , 2 * d_model)
-        self.q_layer = nn.Linear(d_model , d_model)
+        self.kv_layer = nn.Linear(d_model, 2 * d_model)
+        self.q_layer = nn.Linear(d_model, d_model)
         self.linear_layer = nn.Linear(d_model, d_model)
-    
+
     def forward(self, x, y, mask):
-        batch_size, sequence_length, d_model = x.size() # in practice, this is the same for both languages...so we can technically combine with normal attention
+        batch_size, sequence_length, d_model = x.size()  # in practice, this is the same for both languages...so we can technically combine with normal attention
         kv = self.kv_layer(x)
         q = self.q_layer(y)
         kv = kv.reshape(batch_size, sequence_length, self.num_heads, 2 * self.head_dim)
@@ -199,7 +207,8 @@ class MultiHeadCrossAttention(nn.Module):
         kv = kv.permute(0, 2, 1, 3)
         q = q.permute(0, 2, 1, 3)
         k, v = kv.chunk(2, dim=-1)
-        values, attention = scaled_dot_product(q, k, v, mask) # We don't need the mask for cross attention, removing in outer function!
+        values, attention = scaled_dot_product(q, k, v,
+                                               mask)  # We don't need the mask for cross attention, removing in outer function!
         values = values.permute(0, 2, 1, 3).reshape(batch_size, sequence_length, d_model)
         out = self.linear_layer(values)
         return out
@@ -245,21 +254,24 @@ class SequentialDecoder(nn.Sequential):
             y = module(x, y, self_attention_mask, cross_attention_mask)
         return y
 
+
 class Decoder(nn.Module):
-    def __init__(self, 
-                 d_model, 
-                 ffn_hidden, 
-                 num_heads, 
-                 drop_prob, 
+    def __init__(self,
+                 d_model,
+                 ffn_hidden,
+                 num_heads,
+                 drop_prob,
                  num_layers,
                  max_sequence_length,
                  language_to_index,
                  START_TOKEN,
-                 END_TOKEN, 
+                 END_TOKEN,
                  PADDING_TOKEN):
         super().__init__()
-        self.sentence_embedding = SentenceEmbedding(max_sequence_length, d_model, language_to_index, START_TOKEN, END_TOKEN, PADDING_TOKEN)
-        self.layers = SequentialDecoder(*[DecoderLayer(d_model, ffn_hidden, num_heads, drop_prob) for _ in range(num_layers)])
+        self.sentence_embedding = SentenceEmbedding(max_sequence_length, d_model, language_to_index, START_TOKEN,
+                                                    END_TOKEN, PADDING_TOKEN)
+        self.layers = SequentialDecoder(
+            *[DecoderLayer(d_model, ffn_hidden, num_heads, drop_prob) for _ in range(num_layers)])
 
     def forward(self, x, y, self_attention_mask, cross_attention_mask, start_token, end_token):
         y = self.sentence_embedding(y, start_token, end_token)
@@ -268,37 +280,40 @@ class Decoder(nn.Module):
 
 
 class Transformer(nn.Module):
-    def __init__(self, 
-                d_model, 
-                ffn_hidden, 
-                num_heads, 
-                drop_prob, 
-                num_layers,
-                max_sequence_length, 
-                kn_vocab_size,
-                english_to_index,
-                kannada_to_index,
-                START_TOKEN, 
-                END_TOKEN, 
-                PADDING_TOKEN
-                ):
+    def __init__(self,
+                 d_model,
+                 ffn_hidden,
+                 num_heads,
+                 drop_prob,
+                 num_layers,
+                 max_sequence_length,
+                 kn_vocab_size,
+                 english_to_index,
+                 kannada_to_index,
+                 START_TOKEN,
+                 END_TOKEN,
+                 PADDING_TOKEN
+                 ):
         super().__init__()
-        self.encoder = Encoder(d_model, ffn_hidden, num_heads, drop_prob, num_layers, max_sequence_length, english_to_index, START_TOKEN, END_TOKEN, PADDING_TOKEN)
-        self.decoder = Decoder(d_model, ffn_hidden, num_heads, drop_prob, num_layers, max_sequence_length, kannada_to_index, START_TOKEN, END_TOKEN, PADDING_TOKEN)
+        self.encoder = Encoder(d_model, ffn_hidden, num_heads, drop_prob, num_layers, max_sequence_length,
+                               english_to_index, START_TOKEN, END_TOKEN, PADDING_TOKEN)
+        self.decoder = Decoder(d_model, ffn_hidden, num_heads, drop_prob, num_layers, max_sequence_length,
+                               kannada_to_index, START_TOKEN, END_TOKEN, PADDING_TOKEN)
         self.linear = nn.Linear(d_model, kn_vocab_size)
         self.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
-    def forward(self, 
-                x, 
-                y, 
-                encoder_self_attention_mask=None, 
-                decoder_self_attention_mask=None, 
+    def forward(self,
+                x,
+                y,
+                encoder_self_attention_mask=None,
+                decoder_self_attention_mask=None,
                 decoder_cross_attention_mask=None,
                 enc_start_token=False,
                 enc_end_token=False,
-                dec_start_token=False, # We should make this true
-                dec_end_token=False): # x, y are batch of sentences
+                dec_start_token=False,  # We should make this true
+                dec_end_token=False):  # x, y are batch of sentences
         x = self.encoder(x, encoder_self_attention_mask, start_token=enc_start_token, end_token=enc_end_token)
-        out = self.decoder(x, y, decoder_self_attention_mask, decoder_cross_attention_mask, start_token=dec_start_token, end_token=dec_end_token)
+        out = self.decoder(x, y, decoder_self_attention_mask, decoder_cross_attention_mask, start_token=dec_start_token,
+                           end_token=dec_end_token)
         out = self.linear(out)
         return out
