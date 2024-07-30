@@ -7,6 +7,7 @@ Dive into the cutting-edge world of LLMs with our comprehensive guide! 🌍📘 
 ### Chapters
  - Brief History of LLMs 🕰️🔍
  - Intro to LLMs 🤖✨
+ - Large Language Models
  - Transformer Architecture 🔄🏗️
  - Dataset Engineering 🛠️📊
  - Pretrained Models 📚🤝
@@ -16,12 +17,15 @@ Dive into the cutting-edge world of LLMs with our comprehensive guide! 🌍📘 
  - Large Multimodal Models 🖼️🔊
  - LLM Evaluation 📉🔎
  - LLM Quantization ⚖️⚙️
- - Inference Optimization 🚀💻
+ - LLM Platforms
  - Vector Databases 🗂️🔠
  - Retrieval Augmented Generation (RAG) 🔍🤔
+ - LLM Inference Optimization 🚀💻
  - LLM Deployment 🚀🖥️
  - Securing LLMs 🔒🛡️
  - LLM Model Merging 🔗🤯
+ - LL Agents
+ - OpenAI
 
 
 Get ready to unlock the secrets behind today's most powerful AI models! 🔑✨ Grab your copy on Amazon(https://a.co/d/gdxgO5T) now and embark on your LLM adventure! 🌟📖
