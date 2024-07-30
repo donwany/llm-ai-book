@@ -1,4 +1,4 @@
-🚀 Just Launched! 🚀
+🚀 Just Launched! 🚀 June, 2024.
 ### Title: 📚 [Demystifying the Power of Large Language Models](https://www.amazon.com/Demystifying-Power-Large-Language-Models/dp/B0D6443WY8): A Deep Dive into Large Language Models 🤖💡
 
 [![](img/book_cover.jpg)](https://www.amazon.com/Demystifying-Power-Large-Language-Models/dp/B0D6443WY8/)
@@ -31,3 +31,4 @@ Dive into the cutting-edge world of LLMs with our comprehensive guide! 🌍📘 
 Get ready to unlock the secrets behind today's most powerful AI models! 🔑✨ Grab your copy on Amazon(https://a.co/d/gdxgO5T) now and embark on your LLM adventure! 🌟📖
 
 ### Author - Theophilus Siameh
+   - **Reviewers**: Thomas Torku, Israel Fianyi, Collins Agyekum and Abigail Addobea.
