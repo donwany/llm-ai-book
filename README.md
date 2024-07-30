@@ -22,6 +22,6 @@ Dive into the cutting-edge world of LLMs with our comprehensive guide! 🌍📘 
  - LLM Model Merging 🔗🤯
 
 
-Get ready to unlock the secrets behind today's most powerful AI models! 🔑✨ Grab your copy (https://a.co/d/gdxgO5T) now and embark on your LLM adventure! 🌟📖
+Get ready to unlock the secrets behind today's most powerful AI models! 🔑✨ Grab your copy on Amazon(https://a.co/d/gdxgO5T) now and embark on your LLM adventure! 🌟📖
 
 ### Author - Theophilus Siameh
