@@ -31,4 +31,4 @@ Dive into the cutting-edge world of LLMs with our comprehensive guide! 🌍📘 
 Get ready to unlock the secrets behind today's most powerful AI models! 🔑✨ Grab your copy on Amazon(https://a.co/d/gdxgO5T) now and embark on your LLM adventure! 🌟📖
 
 ### Author - Theophilus Siameh
-   - **Reviewers**: Thomas Torku, Israel Fianyi, Collins Agyekum and Abigail Addobea.
+   - **Reviewers**: Thomas Torku, PhD., Israel Fianyi, PhD., Collins Agyekum and Abigail Addobea.
