@@ -30,5 +30,6 @@ Dive into the cutting-edge world of LLMs with our comprehensive guide! 🌍📘 
 
 Get ready to unlock the secrets behind today's most powerful AI models! 🔑✨ Grab your copy on Amazon(https://a.co/d/gdxgO5T) now and embark on your LLM adventure! 🌟📖
 
-### Author - [Theophilus Siameh](https://www.linkedin.com/in/theophilus-siameh-793a8626/)
-   - **Reviewers**: [Thomas Torku, PhD.](https://www.linkedin.com/in/thomas-torku-ph-d-912739a8/), [Israel Fianyi, PhD.](https://www.linkedin.com/in/israel-fianyi-phd-2029aa56/), [Collins Agyekum](https://www.linkedin.com/in/collins-agyekum-13b30698) and [Abigail Addobea](https://www.linkedin.com/in/madam-akosua-addobea08/).
+### Author
+  - [Theophilus Siameh](https://www.linkedin.com/in/theophilus-siameh-793a8626/)
+     - **Reviewers**: [Thomas Torku, PhD.](https://www.linkedin.com/in/thomas-torku-ph-d-912739a8/), [Israel Fianyi, PhD.](https://www.linkedin.com/in/israel-fianyi-phd-2029aa56/), [Collins Agyekum](https://www.linkedin.com/in/collins-agyekum-13b30698) and [Abigail Addobea](https://www.linkedin.com/in/madam-akosua-addobea08/).
