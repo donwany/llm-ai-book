@@ -24,8 +24,8 @@ Dive into the cutting-edge world of LLMs with our comprehensive guide! 🌍📘 
  - LLM Deployment 🚀🖥️
  - Securing LLMs 🔒🛡️
  - LLM Model Merging 🔗🤯
- - LL Agents
- - OpenAI
+ - LLM Agents
+ - OpenAI API
 
 
 Get ready to unlock the secrets behind today's most powerful AI models! 🔑✨ Grab your copy on Amazon(https://a.co/d/gdxgO5T) now and embark on your LLM adventure! 🌟📖
